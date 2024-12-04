@@ -8,36 +8,36 @@ pipeline {
         maven 'maven3'
     }
     stages {
-        stage('ST1 - 8750522K') {
+        stage('ST1 - 8750522K: Setup Release Environment') {
             steps {
                 sh 'echo "ST1-8750522K: Setup Release Environment Completed."'
             }
         }
 
         stage('ST2 - 8750522K') {
-  steps {
-    script {
-      def result = sh(script: '''
-        docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522K
-      ''', returnStatus: true)
-      if (result == 0) {
-        echo "ST2-8750522K: Server Setup Completed"
-      } else {
-        error "ST2-8750522K: Server Setup Failed. Please check the logs for more details."
-      }
-    }
-  }
-}
+            steps {
+                script {
+                    def result = sh(script: '''
+                        docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522k
+                    ''', returnStatus: true)
+                    if (result == 0) {
+                        echo "ST2-8750522K: Server Setup Completed"
+                    } else {
+                        error "ST2-8750522K: Server Setup Failed. Please check the logs for more details."
+                    }
+                }
+            }
+        }
 
         stage('ST3 - 8750522K') {
             parallel {
-                stage('ST3A - 8750522K') {
+                stage('ST3A - 8750522K: XSS Test') {
                     steps {
                         sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed and Report Generated"'
                     }
                 }
 
-                stage('ST3B - 8750522K: SQLI Test') {
+                stage('ST3B - 8750522K') {
                     steps {
                         sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
                     }
@@ -45,13 +45,13 @@ pipeline {
             }
         }
 
-        stage('ST4 - 8750522K') {
+        stage('ST4 - 8750522') {
             steps {
                 sh 'echo "ST4-8750522K: Security Reports are checked"'
             }
         }
 
-       stage('ST5 - 8750522K') {
+        stage('ST5 - 8750522K') {
             steps {
                 input {
                     message: 'Hello 8750522K, please approve to proceed to the next phase?'
@@ -80,9 +80,6 @@ pipeline {
             steps {
                 sh 'echo "ST6-8750522K: Ready for next phase"'
             }
-        
+        }
     }
-}
-    }
-}
 }
