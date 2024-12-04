@@ -60,7 +60,7 @@ pipeline {
    stage('ST5 - 8750522K') {
     steps {
         input(
-            message: 'Hello 8750522K, please approve to proceed to the next phase?',
+            message: 'Hello 8750522K, approve to proceed to the next phase?',
             parameters: [
                 booleanParam(
                     defaultValue: false,
@@ -70,7 +70,6 @@ pipeline {
             ]
         )
         script {
-            echo "User input: ${params.proceed}"
             if (!params.proceed) {
                 currentBuild.result = 'ABORTED'
                 return
@@ -85,7 +84,6 @@ stage('ST6 - 8750522K') {
         expression { params.proceed }
     }
     steps {
-        echo "ST6-8750522K: Entering ST6 stage"
         sh 'echo "ST6-8750522K: Ready for next phase"'
     }
 }
