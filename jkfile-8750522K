@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-        stage('ST3 - 8750522K') {
+        stage('ST3 - 8750522K:) {
             parallel {
                 stage('ST3A - 8750522K: XSS Test') {
                     steps {
@@ -31,7 +31,7 @@ pipeline {
                     }
                 }
 
-                stage('ST3B - 8750522K') {
+                stage('ST3B - 8750522K: SQLI Test') {
                     steps {
                         sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
                     }
@@ -49,7 +49,8 @@ pipeline {
             steps {
                 script {
                     def proceed = input(
-                        message: 'Hello 8750522K, please approve to proceed to the next phase?',
+                        id: 'proceed',
+                        message: 'Hello 8750522K, permission to proceed to next phase?',
                         parameters: [
                             [$class: 'ChoiceParameter', choices: ['Proceed', 'Abort']]
                         ]
@@ -58,7 +59,7 @@ pipeline {
                         currentBuild.result = 'ABORTED'
                         return
                     }
-                    echo "ST5-8750522K: Approved to proceed to the next phase"
+                    echo "ST5-8750522K: Approve to proceed to next phase"
                 }
             }
         }
@@ -69,8 +70,6 @@ pipeline {
             }
             steps {
                 sh 'echo "ST6-8750522K: Ready for next phase"'
-                // Add your deployment steps here
-                sh '// Deploy to your target environment'
             }
         }
     }
