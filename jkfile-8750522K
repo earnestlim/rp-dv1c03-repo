@@ -15,19 +15,23 @@ pipeline {
     }
 
    stage('ST2 - 8750522K') {
-            steps {
-                script {
-                    try {
-                        sh '''
-                            docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522k
-                        '''
-                        echo "ST2-8750522K: Server Setup Completed"
-                    } finally {
-                        echo "ST2-8750522K: Server Setup Stage Completed, regardless of success or failure"
-                    }
-                }
+    steps {
+        script {
+            try {
+                sh '''
+                    docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522k
+                '''
+                echo "ST2-8750522K: Server Setup Completed"
+            } catch (Exception e) {
+                currentBuild.result = 'FAILURE'
+                echo "ST2-8750522K: Server Setup Failed: ${e.message}"
+                // Consider adding more specific error handling, such as sending notifications or triggering alerts
+            } finally {
+                echo "ST2-8750522K: Server Setup Stage Completed, regardless of success or failure"
             }
         }
+    }
+}
 
     
 
