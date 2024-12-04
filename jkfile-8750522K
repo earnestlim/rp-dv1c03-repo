@@ -45,12 +45,12 @@ pipeline {
       }
     }
 
-    stage('ST5 - 8750522K') {
+    stage('ST5 - 8750522K) {
       steps {
         script {
           def proceed = input(
               id: 'proceed',
-              message: 'Hello 8750522K, permission to proceed to next phase?',
+              message: 'Hello 8750522K, please approve to proceed to the next phase.',
               parameters: [
                   [$class: 'ChoiceParameter', choices: ['Proceed', 'Abort']]
               ]
@@ -59,7 +59,7 @@ pipeline {
             currentBuild.result = 'ABORTED'
             return
           }
-          echo "ST5-8750522K: Approve to proceed to next phase"
+          echo "ST5-8750522K: Approved to proceed to the next phase"
         }
       }
     }
@@ -68,10 +68,12 @@ pipeline {
       when {
         expression { params.proceed == 'Proceed' }
       }
+      stage('ST6 - 8750522K: Deployment') {
+      when {
+        expression { params.proceed == 'Proceed' }
+      }
       steps {
         sh 'echo "ST6-8750522K: Ready for next phase"'
-        // Add your deployment steps here
-        sh '// Deploy to your target environment'
       }
     }
   }
