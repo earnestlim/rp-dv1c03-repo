@@ -42,22 +42,22 @@ pipeline {
               sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed and Report Generated"'
             }
           }
-        }
-
+        
         stage('ST3B - 8750522K') {
           steps {
               sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
             }
           }
         } 
+}
 
-    stage('ST5 - 8750522K') {
+    stage('ST4 - 8750522K') {
       steps {
         sh 'echo "ST5-8750522K: Security Reports are checked"'
       }
     }
 
-    stage('ST6 - 8750522K') {
+    stage('ST5 - 8750522K') {
       steps {
         script {
           def proceed = input(
@@ -76,7 +76,7 @@ pipeline {
       }
     }
 
-    stage('ST7 - 8750522K') {
+    stage('ST6 - 8750522K') {
       when {
         expression { params.proceed == 'Proceed' }
       }
