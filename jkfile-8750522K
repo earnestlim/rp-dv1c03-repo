@@ -15,17 +15,19 @@ pipeline {
     }
 
     stage('ST2 - 8750522K') {
-      steps {
-        try {
-          sh '''
-            docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522k
-          '''
-          sh 'echo "ST2-8750522K: Server Setup Completed"'
-        } finally {
-          sh 'echo "ST2-8750522K: Server Setup Stage Completed, regardless of success or failure"'
+            steps {
+                script {
+                    def result = sh(script: '''
+                        docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522k
+                    ''', returnStatus: true)
+                    if (result == 0) {
+                        echo "ST2-8750522K: Server Setup Completed"
+                    } else {
+                        error "ST2-8750522K: Server Setup Failed. Please check the logs for more details."
+                    }
+                }
+            }
         }
-      }
-    }
 
     stage('Code Build') {
       steps {
@@ -48,6 +50,7 @@ pipeline {
             }
           }
         } 
+}
 
     stage('ST5 - 8750522K') {
       steps {
