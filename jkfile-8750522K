@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-        stage('ST3 - 8750522K:) {
+        stage('ST3 - 8750522K') {
             parallel {
                 stage('ST3A - 8750522K') {
                     steps {
