@@ -40,13 +40,4 @@ pipeline {
  steps {
  sh 'mvn install -Dmaven.test.skip=false'
  }
- }
- stage('Printing All Global Variables') {
- steps {
- sh """
- env
- """
- }
- }
- }
 }
