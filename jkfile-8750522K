@@ -15,13 +15,17 @@ pipeline {
         }
 
         stage('ST2 - 8750522K') {
-            steps {
-                sh '''
-                    docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522k
-                '''
-                sh 'echo "ST2-8750522K: Server Setup Completed"'
-            }
+      steps {
+        try {
+          sh '''
+            docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522K
+          '''
+          sh 'echo "ST2-8750522K: Server Setup Completed"'
+        } finally {
+          sh 'echo "ST2-8750522K: Server Setup Stage Completed, regardless of success or failure"'
         }
+      }
+    }
 
         stage('ST3 - 8750522K') {
             parallel {
