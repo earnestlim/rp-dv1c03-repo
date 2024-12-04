@@ -29,17 +29,25 @@ pipeline {
       }
     }
 
-    stage('ST3 - 8750522K') {
+   stage('ST3 - 8750522K') {
       parallel {
-        stage('ST3A - 8750522K: XSS Test') {
+        stage('ST3A - 8750522K') {
           steps {
-            sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed and Report Generated"'
+            try {
+              sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Started"'
+            } finally {
+              sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed"'
+            }
           }
         }
 
         stage('ST3B - 8750522K') {
           steps {
-            sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
+            try {
+              sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Started"'
+            } finally {
+              sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed"'
+            }
           }
         }
       }
