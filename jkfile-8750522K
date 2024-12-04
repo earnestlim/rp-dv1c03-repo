@@ -78,14 +78,3 @@ pipeline {
         }
     }
 }
-
-stage('ST6 - 8750522K') {
-    when {
-        expression { params.proceed }
-    }
-    steps {
-        sh 'echo "ST6-8750522K: Ready for next phase"'
-        // Add your deployment steps here
-        sh '// Deploy to the target environment'
-    }
-}
