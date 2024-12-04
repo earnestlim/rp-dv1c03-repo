@@ -14,7 +14,7 @@ pipeline {
       }
     }
 
-    stage('ST2 - 8750522K') {
+    stage('ST2 - 8750522K: Server Setup') {
             steps {
                 script {
                     def result = sh(script: '''
@@ -29,11 +29,7 @@ pipeline {
             }
         }
 
-    stage('Code Build') {
-      steps {
-        sh 'mvn install -Dmaven.test.skip=false'
-      }
-    }
+    
 
    stage('ST3 - 8750522K') {
       parallel {
