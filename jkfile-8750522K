@@ -25,7 +25,7 @@ pipeline {
 
         stage('ST3 - 8750522K:) {
             parallel {
-                stage('ST3A - 8750522K: XSS Test') {
+                stage('ST3A - 8750522K') {
                     steps {
                         sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed and Report Generated"'
                     }
