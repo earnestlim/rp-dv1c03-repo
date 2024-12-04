@@ -1,70 +1,95 @@
 pipeline {
-  agent {
-    node {
-      label 'master'
-    }
-  }
-  tools {
-    maven 'maven3'
-  }
-  options {
-    buildDiscarder logRotator(
-      daysToKeepStr: '15',
-      numToKeepStr: '10'
-    )
-  }
-  environment {
-    APP_NAME = "STUDENT_APP"
-    APP_ENV = "DEV"
-  }
-  stages {
-    stage('Cleanup Workspace') {
-      steps {
-        cleanWs()
-        sh """
-          echo "Cleaned Up Workspace for ${APP_NAME}"
-        """
-      }
-    }
-    stage('Code Checkout') {
-      steps {
-        checkout([
-          $class: 'GitSCM',
-          branches: [[name: '*/main']],
-          userRemoteConfigs: [[url: 'https://github.com/earnestlim/rp-dv1c03-repo']] 1    
-        ])
-      }
-    }
-    stage('Code Build') {
-      steps {
-        sh 'mvn install -Dmaven.test.skip=false'
-      }
-    }
-    stage('Parallel Processing') {
-      parallel {
-        stage('Additional Processing (3A)') {
-          steps {
-            sh '// Add your specific steps for stage 3A'
-          }
+    agent {
+        node {
+            label 'master'
         }
-        stage('Additional Processing (3B)') {
-          steps {
-            sh '// Add your specific commands for stage 3B'
-          }
+    }
+    tools {
+        maven 'maven3'
+    }
+    stages {
+        // Stage 1: Setup Release Environment
+        stage('ST1 -8750522K') {
+            steps {
+                sh 'echo "ST1-8750522K: Setup Release Environment Completed."'
+            }
         }
-      }
-    }
-    stage('Test') {
-      steps {
-        // Add your test steps here
-        sh 'mvn test'
-      }
-    }
-    stage('Deploy') {
-      steps {
-        // Add your deployment steps here
-        sh '// Deploy to your target environment'
-      }
-    }
-  }
-}
+
+        // Stage 2: Server Setup
+        stage('ST2 -8750522K') {
+            steps {
+                sh '''
+                    docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522K
+                '''
+            }
+        }
+
+        // Code Build
+            steps {
+                sh 'mvn install -Dmaven.test.skip=false'
+            }
+
+
+        // Stage 3: Parallel Processing
+        stage('ST3 -8750522K') {
+            parallel {
+                stage('ST3A - 8750522K') {
+                    steps {
+                        sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed and Report Generated"'
+                    }
+                }
+
+                stage('ST3B - 8750522K') {
+                    steps {
+                        sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
+                    }
+                }
+            }
+        }
+
+        // Stage 4: Security Report Check
+        stage('ST4 -8750522K') {
+            steps {
+                sh 'echo "ST4-8750522K: Security Reports are checked"'
+            }
+        }
+
+        // Stage 5: Permission to Proceed
+        stage('ST5 -8750522K') {
+            steps {
+                script {
+                    def proceed = input(
+                        id: 'proceed',
+                        message: 'Hello 8750522K, permission to proceed to next phase?',
+                        parameters: [
+                            [$class: 'ChoiceParameter', choices: ['Proceed', 'Abort']]
+                        ]
+                    )
+                    if (proceed == 'Abort') {
+                        currentBuild.result = 'ABORTED'
+                        return
+                    }
+                    echo "ST5-8750522K: Approve to proceed to next phase"
+                }
+            }
+        }
+
+        // Stage 6: Deployment 
+        stage('ST6 -8750522K') {
+            when {
+                expression { params.proceed == 'Proceed' }
+            }
+            steps {
+                sh 'echo "ST6-8750522K: Ready for next phase"'
+        }
+
+        // Code Checkout
+        stage('Code Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/earnestlim/rp-dv1c03-repo']]
+                ])
+            }
+        }
