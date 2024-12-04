@@ -17,7 +17,7 @@ pipeline {
     stage('ST2 - 8750522K') {
       steps {
         sh '''
-          docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522K
+          docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522k
         '''
         sh 'echo "ST2-8750522K: Server Setup Completed"'
       }
