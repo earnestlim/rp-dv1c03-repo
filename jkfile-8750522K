@@ -47,8 +47,7 @@ pipeline {
               sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
             }
           }
-        }
-    }
+        } 
 
     stage('ST5 - 8750522K') {
       steps {
