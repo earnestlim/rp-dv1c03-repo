@@ -80,7 +80,7 @@ pipeline {
             steps {
                 sh 'echo "ST6-8750522K: Ready for next phase"'
             }
-        }
+        
     }
 }
     }
