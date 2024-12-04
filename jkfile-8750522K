@@ -57,32 +57,35 @@ pipeline {
       }
     }
 
-    stage('ST5 - 8750522K') {
-      steps {
-        script {
-          def proceed = input(
-              id: 'proceed',
-              message: 'Hello 8750522K, permission to proceed to next phase?',
-              parameters: [
-                  [$class: 'ChoiceParameter', choices: ['Proceed', 'Abort']]
-              ]
-          )
-          if (proceed == 'Abort') {
-            currentBuild.result = 'ABORTED'
-            return
-          }
-          echo "ST6-8750522K: Approve to proceed to next phase"
+   stage('ST5 -8750522K') {
+            steps {
+                input {
+                    message: 'Hello 8750522K, please approve to proceed to the next phase?'
+                    parameters {
+                        booleanParam(
+                            defaultValue: false,
+                            description: 'Proceed to the next phase?',
+                            name: 'proceed'
+                        )
+                    }
+                }
+                script {
+                    if (!params.proceed) {
+                        currentBuild.result = 'ABORTED'
+                        return
+                    }
+                    echo "ST5-8750522K: Approved to proceed to the next phase"
+                }
+            }
         }
-      }
-    }
 
-    stage('ST6 - 8750522K') {
-      when {
-        expression { params.proceed == 'Proceed' }
-      }
-      steps {
-        sh 'echo "ST7-8750522K: Ready for next phase"'
-      }
+        stage('ST6 - 8750522K') {
+            when {
+                expression { params.proceed }
+            }
+            steps {
+                sh 'echo "ST6-8750522K: Ready for next phase"'
+            }
+        }
     }
-  }
 }
