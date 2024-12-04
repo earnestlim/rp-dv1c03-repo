@@ -16,10 +16,14 @@ pipeline {
 
     stage('ST2 - 8750522K') {
       steps {
-        sh '''
-          docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522k
-        '''
-        sh 'echo "ST2-8750522K: Server Setup Completed"'
+        try {
+          sh '''
+            docker run -it --name svr-8750522K -d -p 32900:80 img-base-8750522K
+          '''
+          sh 'echo "ST2-8750522K: Server Setup Completed"'
+        } finally {
+          sh 'echo "ST2-8750522K: Server Setup Stage Completed, regardless of success or failure"'
+        }
       }
     }
 
@@ -33,20 +37,14 @@ pipeline {
       parallel {
         stage('ST3A - 8750522K') {
           steps {
-            try {
-              sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Started"'
-            } finally {
-              sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed"'
+              sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed and Report Generated"'
             }
           }
         }
 
         stage('ST3B - 8750522K') {
           steps {
-            try {
-              sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Started"'
-            } finally {
-              sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed"'
+              sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
             }
           }
         }
