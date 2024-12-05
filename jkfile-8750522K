@@ -30,20 +30,23 @@ pipeline {
             }
         }
     }
+}
+
 
    stage('ST3 - 8750522K') {
-    parallel {
+      parallel {
         stage('ST3A - 8750522K') {
-            steps {
-                sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed and Report Generated"'
+          steps {
+              sh 'echo "ST3A-8750522K: X-Site Scripting (XSS) Test Completed and Report Generated"'
             }
-        }
+          }
+        
         stage('ST3B - 8750522K') {
-            steps {
-                sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
+          steps {
+              sh 'echo "ST3B-8750522K: SQL injection (SQLI) Test Completed and Report Generated"'
             }
-        }
-    }
+          }
+        } 
 }
 
     stage('ST4 - 8750522K') {
@@ -55,7 +58,7 @@ pipeline {
    stage('ST5 - 8750522K') {
     steps {
         input(
-            message: 'Hello 8750522K, permission to proceed to the next phase?',
+            message: 'Hello 8750522K, approve to proceed to the next phase?',
             parameters: [
                 booleanParam(
                     defaultValue: false,
@@ -73,6 +76,7 @@ pipeline {
         }
     }
 }
+
 stage('ST6 - 8750522K') {
     when {
         expression { params.proceed }
