@@ -60,14 +60,11 @@ pipeline {
         script { 
             input message: 'Hello 8750522K, permission to proceed to the next phase?"
             }   
-            echo "ST5-8750522K: Approve to proceed to the next phase"
+            echo "ST5-8750522K: Approve to proceed to next phase"
         }
     }
 
 stage('ST6 - 8750522K') {
-    when {
-        expression { params.proceed }
-    }
     steps {
         sh 'echo "ST6-8750522K: Ready for next phase"'
     }
