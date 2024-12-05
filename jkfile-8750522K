@@ -55,7 +55,7 @@ pipeline {
       }
     }
 
-   stage('ST5 - 8750522K') {
+  stage('ST5 - 8750522K') {
             steps {
                 input(
                     message: 'Hello 8750522K, please approve to proceed to the next phase?',
@@ -79,12 +79,10 @@ pipeline {
 
         stage('ST6 - 8750522K') {
             when {
-                expression { params.proceed }
+                expression { params.proceed == true }
             }
             steps {
                 sh 'echo "ST6-8750522K: Ready for next phase"'
-                // Add your deployment steps here
-                sh '// Deploy to the target environment'
             }
         }
     }
